@@ -35,8 +35,11 @@ eas whoami
 
 ## Antes de publicar
 
-1. Trocar os links reais das lojas em `src/screens/Discontinued/index.js`
-   (`NEW_APP_IOS_URL`, `NEW_APP_ANDROID_URL`).
+1. (iOS, opcional) Para o botão **abrir o app instalado** no iOS, preencher
+   `NEW_APP_IOS_SCHEME` em `src/screens/Discontinued/index.js` e adicionar o mesmo valor em
+   `ios.infoPlist.LSApplicationQueriesSchemes` no `app.json`. Sem isso, o iOS vai direto
+   para a App Store. Os links das lojas já estão com os valores reais do TravelBACK, e o
+   Android já abre o app instalado (fallback automático para a Play Store).
 2. Conferir em `app.json` que `version`/`buildNumber`/`versionCode` ficaram **acima** do
    que já está publicado (o app antigo estava em versionCode ~474; aqui começa em 500).
    Com `appVersionSource: "remote"` + `autoIncrement`, o EAS também garante número de build

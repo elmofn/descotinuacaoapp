@@ -12,18 +12,63 @@ import {
 import TravelBackLogo from '../../../assets/travelback-logo-purple.png'
 import styles from './styles'
 
-// TODO: substituir pelos links reais do novo app (TravelBACK) nas lojas antes de publicar.
-const NEW_APP_IOS_URL = 'https://apps.apple.com/app/idXXXXXXXXX'
-const NEW_APP_ANDROID_URL =
-  'https://play.google.com/store/apps/details?id=com.exemplo.travelback'
+// --- Lojas (links reais do app novo TravelBACK) ---
+const NEW_APP_IOS_STORE_URL =
+  'https://apps.apple.com/us/app/travelback/id6802664762'
+const NEW_APP_ANDROID_STORE_URL =
+  'https://play.google.com/store/apps/details?id=com.travelback.app'
+
+// --- Abrir o app novo se já estiver instalado ---
+// Android: abre pelo package; o intent cai sozinho na Play Store se não estiver instalado.
+const NEW_APP_ANDROID_PACKAGE = 'com.travelback.app'
+// iOS: URL scheme do app novo (ex.: 'travelback'). ENQUANTO ESTIVER VAZIO, o iOS vai
+// direto para a App Store. Para habilitar a abertura do app instalado no iOS:
+//   1) preencha o scheme aqui;
+//   2) adicione o MESMO valor em ios.infoPlist.LSApplicationQueriesSchemes no app.json.
+const NEW_APP_IOS_SCHEME = ''
 
 const SUPPORT_WHATSAPP_URL =
   'https://api.whatsapp.com/send?phone=5511988167233&text=Olá%20Concierge!'
 
 const Discontinued = () => {
-  const handleOpenStore = () => {
-    const url = Platform.OS === 'ios' ? NEW_APP_IOS_URL : NEW_APP_ANDROID_URL
+  const openStore = () => {
+    const url =
+      Platform.OS === 'ios' ? NEW_APP_IOS_STORE_URL : NEW_APP_ANDROID_STORE_URL
     Linking.openURL(url).catch(() => {})
+  }
+
+  const handleOpenApp = async () => {
+    // Android: um intent com o package abre o app instalado e, se não estiver
+    // instalado, usa browser_fallback_url para abrir a Play Store automaticamente.
+    if (Platform.OS === 'android') {
+      const intentUrl =
+        `intent://#Intent;package=${NEW_APP_ANDROID_PACKAGE};` +
+        (NEW_APP_IOS_SCHEME ? `scheme=${NEW_APP_IOS_SCHEME};` : '') +
+        `S.browser_fallback_url=${encodeURIComponent(
+          NEW_APP_ANDROID_STORE_URL,
+        )};end`
+      try {
+        await Linking.openURL(intentUrl)
+      } catch (e) {
+        openStore()
+      }
+      return
+    }
+
+    // iOS: tenta abrir pelo scheme; se o app não estiver instalado (ou o scheme
+    // ainda não estiver configurado), vai para a App Store.
+    if (NEW_APP_IOS_SCHEME) {
+      try {
+        const appUrl = `${NEW_APP_IOS_SCHEME}://`
+        if (await Linking.canOpenURL(appUrl)) {
+          await Linking.openURL(appUrl)
+          return
+        }
+      } catch (e) {
+        // ignora e cai no fallback da loja
+      }
+    }
+    openStore()
   }
 
   const handleOpenSupport = () => {
@@ -53,7 +98,7 @@ const Discontinued = () => {
         </Text>
 
         <Pressable
-          onPress={handleOpenStore}
+          onPress={handleOpenApp}
           style={({ pressed }) => [
             styles.button,
             pressed && styles.buttonPressed,
