@@ -13,7 +13,8 @@
       "buildNumber": "500",
       "supportsTablet": true,
       "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "LSApplicationQueriesSchemes": ["appmvp"]
       }
     },
     "android": {

@@ -19,13 +19,11 @@ const NEW_APP_ANDROID_STORE_URL =
   'https://play.google.com/store/apps/details?id=com.travelback.app'
 
 // --- Abrir o app novo se já estiver instalado ---
-// Android: abre pelo package; o intent cai sozinho na Play Store se não estiver instalado.
+// Scheme do app TravelBACK (mesmo nas duas plataformas; vem do app.json do app novo).
+// No iOS, este scheme também está declarado em ios.infoPlist.LSApplicationQueriesSchemes
+// (no app.json deste app), senão o canOpenURL sempre retorna falso.
+const NEW_APP_SCHEME = 'appmvp'
 const NEW_APP_ANDROID_PACKAGE = 'com.travelback.app'
-// iOS: URL scheme do app novo (ex.: 'travelback'). ENQUANTO ESTIVER VAZIO, o iOS vai
-// direto para a App Store. Para habilitar a abertura do app instalado no iOS:
-//   1) preencha o scheme aqui;
-//   2) adicione o MESMO valor em ios.infoPlist.LSApplicationQueriesSchemes no app.json.
-const NEW_APP_IOS_SCHEME = ''
 
 const SUPPORT_WHATSAPP_URL =
   'https://api.whatsapp.com/send?phone=5511988167233&text=Olá%20Concierge!'
@@ -43,7 +41,7 @@ const Discontinued = () => {
     if (Platform.OS === 'android') {
       const intentUrl =
         `intent://#Intent;package=${NEW_APP_ANDROID_PACKAGE};` +
-        (NEW_APP_IOS_SCHEME ? `scheme=${NEW_APP_IOS_SCHEME};` : '') +
+        (NEW_APP_SCHEME ? `scheme=${NEW_APP_SCHEME};` : '') +
         `S.browser_fallback_url=${encodeURIComponent(
           NEW_APP_ANDROID_STORE_URL,
         )};end`
@@ -57,9 +55,9 @@ const Discontinued = () => {
 
     // iOS: tenta abrir pelo scheme; se o app não estiver instalado (ou o scheme
     // ainda não estiver configurado), vai para a App Store.
-    if (NEW_APP_IOS_SCHEME) {
+    if (NEW_APP_SCHEME) {
       try {
-        const appUrl = `${NEW_APP_IOS_SCHEME}://`
+        const appUrl = `${NEW_APP_SCHEME}://`
         if (await Linking.canOpenURL(appUrl)) {
           await Linking.openURL(appUrl)
           return
