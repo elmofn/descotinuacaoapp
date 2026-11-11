@@ -5,7 +5,7 @@ import { RedHatText_400Regular } from '@expo-google-fonts/red-hat-text/400Regula
 import { RedHatText_500Medium } from '@expo-google-fonts/red-hat-text/500Medium'
 import { RedHatText_700Bold } from '@expo-google-fonts/red-hat-text/700Bold'
 
-import Discontinued from './src/screens/Discontinued'
+import Main from './src/screens/Main'
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -21,7 +21,7 @@ export default function App() {
 
   return (
     <>
-      <Discontinued />
+      <Main />
       <StatusBar style="dark" />
     </>
   )

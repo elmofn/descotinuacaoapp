@@ -1,21 +1,19 @@
 import { StyleSheet } from 'react-native'
 
+import { theme } from '../../config'
+
 export default StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-  },
   scrollContent: {
     flexGrow: 1,
     paddingHorizontal: 28,
-    paddingVertical: 40,
+    paddingVertical: 32,
     justifyContent: 'center',
   },
   heading: {
     fontFamily: 'Ubuntu_700Bold',
     fontSize: 28,
     lineHeight: 34,
-    color: '#191919',
+    color: theme.text,
   },
   logo: {
     width: 210,
@@ -29,15 +27,15 @@ export default StyleSheet.create({
     fontFamily: 'RedHatText_400Regular',
     fontSize: 15,
     lineHeight: 23,
-    color: '#4A4A4A',
+    color: theme.textMuted,
     marginBottom: 32,
   },
   bodyBold: {
     fontFamily: 'RedHatText_700Bold',
-    color: '#191919',
+    color: theme.text,
   },
   button: {
-    backgroundColor: '#000000',
+    backgroundColor: theme.button,
     borderRadius: 24,
     height: 48,
     alignItems: 'center',
@@ -51,17 +49,5 @@ export default StyleSheet.create({
     fontSize: 16,
     color: '#FFFFFF',
     letterSpacing: 0.25,
-  },
-  supportWrapper: {
-    marginTop: 18,
-    alignItems: 'center',
-  },
-  supportText: {
-    fontFamily: 'RedHatText_500Medium',
-    fontSize: 14,
-    lineHeight: 20,
-    color: '#04B2D4',
-    textAlign: 'center',
-    textDecorationLine: 'underline',
   },
 })
