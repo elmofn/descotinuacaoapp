@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Pressable, SafeAreaView, Text, View } from 'react-native'
 
 import { theme } from '../../config'
+import { useResponsive } from '../../hooks/useResponsive'
 import Faq from '../Faq'
 import Home from '../Home'
 import Support from '../Support'
@@ -15,6 +16,7 @@ const TABS = [
 
 const Main = () => {
   const [active, setActive] = useState('home')
+  const { isTablet } = useResponsive()
   const ActiveScreen = TABS.find((t) => t.key === active).Screen
 
   return (
@@ -30,13 +32,27 @@ const Main = () => {
           return (
             <Pressable
               key={tab.key}
-              style={styles.tab}
+              style={[styles.tab, isTablet && styles.tabTablet]}
               onPress={() => setActive(tab.key)}
             >
-              <Text style={[styles.tabIcon, { opacity: isActive ? 1 : 0.5 }]}>
+              <Text
+                style={[
+                  styles.tabIcon,
+                  isTablet && styles.tabIconTablet,
+                  { opacity: isActive ? 1 : 0.5 },
+                ]}
+              >
                 {tab.icon}
               </Text>
-              <Text style={[styles.tabLabel, { color }]}>{tab.label}</Text>
+              <Text
+                style={[
+                  styles.tabLabel,
+                  isTablet && styles.tabLabelTablet,
+                  { color },
+                ]}
+              >
+                {tab.label}
+              </Text>
             </Pressable>
           )
         })}

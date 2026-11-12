@@ -22,12 +22,22 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  tabTablet: {
+    paddingVertical: 18,
+  },
   tabIcon: {
     fontSize: 18,
     marginBottom: 2,
   },
+  tabIconTablet: {
+    fontSize: 24,
+    marginBottom: 4,
+  },
   tabLabel: {
     fontFamily: 'RedHatText_500Medium',
     fontSize: 12,
+  },
+  tabLabelTablet: {
+    fontSize: 15,
   },
 })

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Pressable, ScrollView, Text, View } from 'react-native'
 
+import { useResponsive } from '../../hooks/useResponsive'
 import styles from './styles'
 
 const FAQS = [
@@ -34,38 +35,58 @@ const FAQS = [
   },
 ]
 
-const FaqItem = ({ item, open, onToggle }) => (
-  <View style={styles.item}>
-    <Pressable style={styles.itemHeader} onPress={onToggle}>
-      <Text style={styles.question}>{item.q}</Text>
-      <Text style={styles.chevron}>{open ? '–' : '+'}</Text>
-    </Pressable>
-    {open ? <Text style={styles.answer}>{item.a}</Text> : null}
-  </View>
-)
-
 const Faq = () => {
   const [openIndex, setOpenIndex] = useState(0)
+  const { isTablet, contentMaxWidth } = useResponsive()
 
   return (
     <ScrollView
-      contentContainerStyle={styles.scrollContent}
+      contentContainerStyle={[
+        styles.scrollContent,
+        isTablet && styles.scrollContentTablet,
+      ]}
       showsVerticalScrollIndicator={false}
     >
-      <Text style={styles.title}>Dúvidas frequentes</Text>
-      <Text style={styles.subtitle}>
-        Tudo o que você precisa saber sobre a migração do TravelCash para o
-        TravelBACK.
-      </Text>
+      <View style={[styles.inner, { maxWidth: contentMaxWidth }]}>
+        <Text style={[styles.title, isTablet && styles.titleTablet]}>
+          Dúvidas frequentes
+        </Text>
+        <Text style={[styles.subtitle, isTablet && styles.subtitleTablet]}>
+          Tudo o que você precisa saber sobre a migração do TravelCash para o
+          TravelBACK.
+        </Text>
 
-      {FAQS.map((item, index) => (
-        <FaqItem
-          key={index}
-          item={item}
-          open={openIndex === index}
-          onToggle={() => setOpenIndex(openIndex === index ? -1 : index)}
-        />
-      ))}
+        {FAQS.map((item, index) => {
+          const open = openIndex === index
+          return (
+            <View key={index} style={styles.item}>
+              <Pressable
+                style={[
+                  styles.itemHeader,
+                  isTablet && styles.itemHeaderTablet,
+                ]}
+                onPress={() => setOpenIndex(open ? -1 : index)}
+              >
+                <Text
+                  style={[styles.question, isTablet && styles.questionTablet]}
+                >
+                  {item.q}
+                </Text>
+                <Text
+                  style={[styles.chevron, isTablet && styles.chevronTablet]}
+                >
+                  {open ? '–' : '+'}
+                </Text>
+              </Pressable>
+              {open ? (
+                <Text style={[styles.answer, isTablet && styles.answerTablet]}>
+                  {item.a}
+                </Text>
+              ) : null}
+            </View>
+          )
+        })}
+      </View>
     </ScrollView>
   )
 }
