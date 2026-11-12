@@ -10,9 +10,9 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   scrollContentTablet: {
-    justifyContent: 'flex-start',
-    paddingTop: 72,
-    paddingBottom: 48,
+    justifyContent: 'center',
+    paddingHorizontal: 40,
+    paddingVertical: 64,
   },
   inner: {
     width: '100%',
@@ -25,8 +25,9 @@ export default StyleSheet.create({
     color: theme.text,
   },
   headingTablet: {
-    fontSize: 40,
-    lineHeight: 48,
+    fontSize: 44,
+    lineHeight: 52,
+    textAlign: 'center',
   },
   logo: {
     width: 210,
@@ -37,10 +38,10 @@ export default StyleSheet.create({
     marginBottom: 28,
   },
   logoTablet: {
-    width: 300,
-    height: 41,
-    marginTop: 18,
-    marginBottom: 40,
+    width: 340,
+    height: 47,
+    marginTop: 22,
+    marginBottom: 48,
   },
   body: {
     fontFamily: 'RedHatText_400Regular',
